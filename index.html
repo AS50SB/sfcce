@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.F.C.Community</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 基础样式 */
+        :root {
+            --primary-color: #2e86de;
+            --secondary-color: #222831;
+            --accent-color: #00adb5;
+            --light-color: #eeeeee;
+            --dark-color: #393e46;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--secondary-color);
+            color: var(--light-color);
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: var(--accent-color);
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            color: var(--primary-color);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏样式 */
+        header {
+            background-color: var(--dark-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--light-color);
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--light-color);
+            font-weight: 500;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-color);
+        }
+        
+        .language-switcher {
+            margin-left: 2rem;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--light-color);
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .lang-btn.active {
+            background-color: var(--accent-color);
+            color: var(--secondary-color);
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        
+        /* 页面内容样式 */
+        .page {
+            display: none;
+            padding: 4rem 0;
+            min-height: calc(100vh - 140px);
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            color: #cccccc;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background-color: var(--dark-color);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-card i {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: var(--light-color);
+        }
+        
+        /* About页面样式 */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--light-color);
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: #cccccc;
+        }
+        
+        .about-image {
+            text-align: center;
+        }
+        
+        .about-image img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Download页面样式 */
+        .download-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+        
+        .download-intro h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--light-color);
+        }
+        
+        .download-intro p {
+            color: #cccccc;
+        }
+        
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .download-card {
+            background-color: var(--dark-color);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .download-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .download-card.large-file {
+            border: 2px solid var(--accent-color);
+        }
+        
+        .download-card.large-file::before {
+            content: "推荐";
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background-color: var(--accent-color);
+            color: var(--secondary-color);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .download-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .download-title {
+            font-size: 1.3rem;
+            color: var(--light-color);
+        }
+        
+        .file-size {
+            background-color: var(--secondary-color);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .download-description {
+            color: #cccccc;
+            margin-bottom: 1.5rem;
+        }
+        
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.8rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .download-btn:hover {
+            background-color: var(--accent-color);
+        }
+        
+        .download-btn i {
+            font-size: 1.2rem;
+        }
+        
+        .progress-bar {
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-top: 10px;
+            overflow: hidden;
+            display: none;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        /* Footer样式 */
+        footer {
+            background-color: var(--dark-color);
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .copyright {
+            color: #aaaaaa;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links, .language-switcher {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--dark-color);
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+            }
+            
+            .nav-links.active, .language-switcher.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 0.5rem 0;
+                text-align: center;
+            }
+            
+            .language-switcher {
+                justify-content: center;
+                margin-top: 1rem;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .download-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">S.<span>F</span>.C.</div>
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link active" data-page="home" data-zh="首页" data-en="Home">首页</a></li>
+                    <li><a href="#about" class="nav-link" data-page="about" data-zh="关于" data-en="About">关于我们</a></li>
+                    <li><a href="#download" class="nav-link" data-page="download" data-zh="下载" data-en="Download">下载</a></li>
+                </ul>
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="zh" data-zh="中文" data-en="Chinese">中文</button>
+                    <button class="lang-btn" data-lang="en" data-zh="English" data-en="English">English</button>
+                </div>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 首页 -->
+    <section id="home" class="page active">
+        <div class="container">
+            <div class="hero">
+                <h1 class="title" data-zh="S.F.C. - 一个很棒的沙漠知识手册" data-en="S.F.C. - A Great Desert Knowledge Manual">S.F.C. - 一个很棒的沙漠知识手册</h1>
+                <p class="subtitle" data-zh="S.F.C. 是一款简单简约的沙漠知识宣传手册" data-en="S.F.C. is a simple and minimalist desert knowledge brochure.">S.F.C. 是一款简单简约的沙漠知识宣传手册</p>
+                <a href="#download" class="btn download-cta page-link" data-page="download" data-zh="立即下载" data-en="Download Now">立即下载</a>
+            </div>
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fas fa-rocket"></i>
+                    <h3 class="feature-title" data-zh="高性能" data-en="High Performance">高性能</h3>
+                    <p class="feature-desc" data-zh="经过优化的引擎，确保软件运行流畅，响应迅速。" data-en="Optimized engine ensures smooth operation and fast response.">经过优化的引擎，确保软件运行流畅，响应迅速。</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3 class="feature-title" data-zh="安全可靠" data-en="Secure & Reliable">安全可靠</h3>
+                    <p class="feature-desc" data-zh="没有收费和阻碍" data-en="No charges and obstacles.">没有收费和阻碍</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-sync-alt"></i>
+                    <h3 class="feature-title" data-zh="持续更新" data-en="Continuous Updates">持续更新</h3>
+                    <p class="feature-desc" data-zh="定期发布更新" data-en="Regular updates to continuously improve features and user experience.">定期发布更新</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我们页面 -->
+    <section id="about" class="page">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="about-title" data-zh="关于 S.F.C." data-en="About S.F.C.">关于 S.F.C.</h2>
+                    <p class="about-desc" data-zh="S.F.C.是一个沙漠知识宣传手册，由两个闲得无聊的团队制作。社区版的目标是延续传统版本的风格。官方版的目标是更加多的对沙漠进行宣传！" data-en="S.F.C. is a desert knowledge promotional brochure produced by two bored teams. The goal of the community edition is to continue the style of the traditional version. The goal of the official edition is to promote the desert even more!">S.F.C.是一个沙漠知识宣传手册，由两个闲得无聊的团队制作。社区版的目标是延续传统版本的风格。官方版的目标是更加多的对沙漠进行宣传！</p>
+                    <p class="about-desc" data-zh="项目从2020年就开始了设计，在2024年正式开始生产，确保让用户能看得懂，让平民也能知道沙漠等地方的奇特景观！" data-en="The project has been in design since 2020 and officially commenced production in 2024, ensuring that users can understand and civilians can also be aware of the unique landscapes in places like deserts!">项目从2020年就开始了设计，在2024年正式开始生产，确保让用户能看得懂，让平民也能知道沙漠等地方的奇特景观！</p>
+                    <p class="about-desc" data-zh="我们相信技术应该服务于人类，而不是相反。因此，我们设计的每一款产品都以用户为中心，注重易用性和功能性。" data-en="We believe technology should serve humanity, not the other way around. Therefore, every product we design is user-centered, focusing on usability and functionality.">我们相信技术应该服务于人类，而不是相反。因此，我们设计的每一款产品都以用户为中心，注重易用性和功能性。</p>
+                </div>
+                <div class="about-image">
+                    <img src="images/1.png" alt="S.F.C. " data-zh="S.F.C. " data-en="S.F.C. ">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 下载页面 -->
+    <section id="download" class="page">
+        <div class="container">
+            <div class="download-intro">
+                <h2 class="download-title" data-zh="下载 S.F.C." data-en="Download S.F.C.">下载 S.F.C.</h2>
+                <p class="download-subtitle" data-zh="选择适合您系统的版本，开始使用 S.F.C.。" data-en="Choose the version that fits your system and start using S.F.C. to enhance your productivity.">选择适合您系统的版本，开始使用 S.F.C.。</p>
+            </div>
+            <div class="download-grid">
+                <!-- 主要下载 -->
+                <div class="download-card large-file">
+                    <div class="download-header">
+                        <h3 class="download-title" data-zh="S.F.C. 完整安装包" data-en="S.F.C. Community Installer">S.F.C. 完整安装包</h3>
+                        <span class="file-size">10 MB</span>
+                    </div>
+                    <p class="download-description" data-zh="包含所有功能的完整安装包，适用于Windows 10/11系统。建议初次用户下载此版本。" data-en="Complete installer with all features, suitable for Windows 10/11 systems. Recommended for first-time users.">包含所有功能的完整安装包，适用于Windows 10/11系统。建议初次用户下载此版本。</p>
+                    <a href="download/S.F.C. Community Installer.exe" class="download-btn" download>
+                        <i class="fas fa-download"></i>
+                        <span class="btn-text" data-zh="下载完整版" data-en="Download Full Version">下载完整版</span>
+                    </a>
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                </div>
+                
+                <!-- 其他下载项 -->
+                <div class="download-card">
+                    <div class="download-header">
+                        <h3 class="download-title" data-zh="S.F.C. 便携版本" data-en="S.F.C. Portable Version">S.F.C. 便携版本</h3>
+                        <span class="file-size">88 KB</span>
+                    </div>
+                    <p class="download-description" data-zh="专为多平台设计的版本，可以直接使用。" data-en="The version designed specifically for multiple platforms can be used directly.">专为多平台设计的版本，可以直接使用。</p>
+                    <a href="download/S.F.C.CE3.4.pptx" class="download-btn" download>
+                        <i class="fas fa-download"></i>
+                        <span class="btn-text" data-zh="下载" data-en="Download">下载</span>
+                    </a>
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                </div>
+                
+                <div class="download-card">
+                    <div class="download-header">
+                        <h3 class="download-title" data-zh="S.F.C. 最新版" data-en="The latest version of S.F.C.">S.F.C. 最新版</h3>
+                        <span class="file-size">65 KB</span>
+                    </div>
+                    <p class="download-description" data-zh="适用于各个可以解压zip文件的平台。" data-en="It is applicable to all platforms capable of decompressing ZIP files.">适用于各个可以解压zip文件的平台。</p>
+                    <a href="download/sfcce.zip" class="download-btn" download>
+                        <i class="fas fa-download"></i>
+                        <span class="btn-text" data-zh="下载" data-en="Download">下载</span>
+                    </a>
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                </div>
+                
+                <div class="download-card">
+                    <div class="download-header">
+                        <h3 class="download-title" data-zh="用户手册" data-en="User Manual">用户手册</h3>
+                        <span class="file-size">1 KB</span>
+                    </div>
+                    <p class="download-description" data-zh="详细的用户指南，包含所有功能的使用说明和技巧。" data-en="Detailed user guide containing instructions and tips for all features.">详细的用户指南，包含所有功能的使用说明和技巧。</p>
+                    <a href="download/README.md" class="download-btn" download>
+                        <i class="fas fa-download"></i>
+                        <span class="btn-text" data-zh="下载手册" data-en="Download Manual">下载手册</span>
+                    </a>
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                </div>
+                
+                <div class="download-card">
+                    <div class="download-header">
+                        <h3 class="download-title" data-zh="PASS" data-en="PASS">PASS</h3>
+                        <span class="file-size">1 KB</span>
+                    </div>
+                    <p class="download-description" data-zh="PASS" data-en="PASS">PASS</p>
+                    <a href="download/README.md" class="download-btn" download>
+                        <i class="fas fa-download"></i>
+                        <span class="btn-text" data-zh="下载" data-en="Download Dev Kit">下载</span>
+                    </a>
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                </div>
+                
+                <div class="download-card">
+                    <div class="download-header">
+                        <h3 class="download-title" data-zh="PASS" data-en="PASS">PASS</h3>
+                        <span class="file-size">1 KB</span>
+                    </div>
+                    <p class="download-description" data-zh="PASS" data-en="PASS">PASS</p>
+                    <a href="download/README.md" class="download-btn" download>
+                        <i class="fas fa-download"></i>
+                        <span class="btn-text" data-zh="下载" data-en="Download">下载</span>
+                    </a>
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">S.<span>F</span>.C.</div>
+                <div class="footer-links">
+                    <a href="#home" class="page-link" data-page="home" data-zh="首页" data-en="Home">首页</a>
+                    <a href="#about" class="page-link" data-page="about" data-zh="关于" data-en="About">关于</a>
+                    <a href="#download" class="page-link" data-page="download" data-zh="下载" data-en="Download">下载</a>
+                    <a href="#" data-zh="隐私政策" data-en="Privacy Policy">隐私政策</a>
+                    <a href="#" data-zh="使用条款" data-en="Terms of Use">使用条款</a>
+                </div>
+                <p class="copyright" data-zh="© 2023 S.F.C. 版权所有" data-en="© 2025 S.F.C. All Rights Reserved">© 2025 S.F.C. 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 页面切换功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 页面切换功能 - 为所有具有page-link类的元素添加事件
+            const pageLinks = document.querySelectorAll('.page-link');
+            const pages = document.querySelectorAll('.page');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            function switchPage(targetPage) {
+                // 更新活动导航链接
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                document.querySelector(`.nav-link[data-page="${targetPage}"]`).classList.add('active');
+                
+                // 显示目标页面
+                pages.forEach(page => page.classList.remove('active'));
+                document.getElementById(targetPage).classList.add('active');
+                
+                // 在移动设备上关闭菜单
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.nav-links').classList.remove('active');
+                    document.querySelector('.language-switcher').classList.remove('active');
+                }
+            }
+            
+            // 为所有页面链接添加点击事件
+            pageLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetPage = this.getAttribute('data-page');
+                    switchPage(targetPage);
+                });
+            });
+            
+            // 为导航链接添加点击事件
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetPage = this.getAttribute('data-page');
+                    switchPage(targetPage);
+                });
+            });
+            
+            // 语言切换功能
+            const langButtons = document.querySelectorAll('.lang-btn');
+            
+            langButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    
+                    // 更新活动语言按钮
+                    langButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 更新页面文本
+                    const textElements = document.querySelectorAll('[data-zh], [data-en]');
+                    textElements.forEach(element => {
+                        if (element.hasAttribute(`data-${lang}`)) {
+                            if (element.tagName === 'IMG') {
+                                element.alt = element.getAttribute(`data-${lang}`);
+                            } else {
+                                element.textContent = element.getAttribute(`data-${lang}`);
+                            }
+                        }
+                    });
+                    
+                    // 在移动设备上关闭菜单
+                    if (window.innerWidth <= 768) {
+                        document.querySelector('.nav-links').classList.remove('active');
+                        document.querySelector('.language-switcher').classList.remove('active');
+                    }
+                });
+            });
+            
+            // 移动端菜单切换
+            const hamburger = document.querySelector('.hamburger');
+            const navLinksContainer = document.querySelector('.nav-links');
+            const languageSwitcher = document.querySelector('.language-switcher');
+            
+            hamburger.addEventListener('click', function() {
+                navLinksContainer.classList.toggle('active');
+                languageSwitcher.classList.toggle('active');
+            });
+            
+            // 下载按钮点击事件 - 添加进度条效果
+            const downloadButtons = document.querySelectorAll('.download-btn');
+            
+            downloadButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // 如果是大文件，显示进度条效果
+                    const card = this.closest('.download-card');
+                    if (card.classList.contains('large-file')) {
+                        e.preventDefault();
+                        const progressBar = card.querySelector('.progress-bar');
+                        const progress = card.querySelector('.progress');
+                        
+                        // 显示进度条
+                        progressBar.style.display = 'block';
+                        
+                        // 模拟下载进度
+                        let width = 0;
+                        const interval = setInterval(() => {
+                            if (width >= 100) {
+                                clearInterval(interval);
+                                // 下载完成后的处理 - 实际下载文件
+                                setTimeout(() => {
+                                    progressBar.style.display = 'none';
+                                    progress.style.width = '0%';
+                                    // 实际下载文件
+                                    const downloadUrl = this.getAttribute('href');
+                                    const link = document.createElement('a');
+                                    link.href = downloadUrl;
+                                    link.download = '';
+                                    document.body.appendChild(link);
+                                    link.click();
+                                    document.body.removeChild(link);
+                                }, 500);
+                            } else {
+                                width++;
+                                progress.style.width = width + '%';
+                            }
+                        }, 30); // 225MB大文件下载时间较长，这里模拟下载过程
+                    }
+                    // 对于小文件，直接下载，不显示进度条
+                });
+            });
+            
+            // 修复页脚链接的页面切换功能
+            const footerLinks = document.querySelectorAll('.footer-links .page-link');
+            footerLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetPage = this.getAttribute('data-page');
+                    switchPage(targetPage);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
